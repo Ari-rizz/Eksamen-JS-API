@@ -1,3 +1,26 @@
+const typeColor = [
+    { type: "normal", color: "beige" },
+    { type: "fire", color: "red" },
+    { type: "water", color: "blue)" },
+    { type: "electric", color: "yellow" },
+    { type: "grass", color: "green" },
+    { type: "ice", color: "cornflowerBlue" },
+    { type: "fighting", color: "Chocolate" },
+    { type: "poison", color: "purple" },
+    { type: "ground", color: "DarkGoldenRod" },
+    { type: "flying", color: "DeepSkyBlue" },
+    { type: "psychic", color: "DarkViolet" },
+    { type: "bug", color: "DarkKhaki" },
+    { type: "rock", color: "Grey" },
+    { type: "ghost", color: "Indigo" },
+    { type: "dragon", color: "Navy" },
+    { type: "dark", color: "DimGray" },
+    { type: "steel", color: "LigthGray" },
+    { type: "fairy", color: "DeepPink" }
+  ];
+let pokemonArray = [];// Array for 50 tilfeldige pokemon
+let cardSection ="";
+
 // Fetch som henter pokemon
 async function fetchPokemon() {
   try {
@@ -10,6 +33,22 @@ async function fetchPokemon() {
     console.log("Kunne ikke laste inn pokemon: " + error);
   }
 }
+// Event listner for å gi knappene en funksjon
+document.querySelectorAll(".filter-type button").forEach(button => {
+  button.addEventListener("click", () => {
+    const type = button.textContent.toLowerCase();
+    filterPokemon(type);
+  })
+})
+// filterfunskjon for pokemonene
+function filterPokemon(type){
+  const filteredPokemon = pokemonArray.filter(pokemon => pokemon.type === type)
+  cardSection = document.querySelector(".card-container");
+  cardSection.innerHTML = "";
+  makePokemonArray(filteredPokemon);
+  console.log(filteredPokemon)
+}
+
 //henter tilfeldige pokemon
 function getRandomPokemon(pokemonList){
 
@@ -25,10 +64,11 @@ async function makePokemonArray(randomPokemonList) {
       const response = await fetch(randomPokemonList[i].url);
       const data = await response.json();
       let pokemon = {
-        image: data.sprites.front_default, // spirits = bilde til pokemonen
+        image: data.sprites.front_default, // spirites = bilde til pokemonen
         name: randomPokemonList[i].name,
         type: data.types[0].type.name, // velger kun den første type-en til pokemonen
       };
+      pokemonArray.push(pokemon)//legger til de 50 pokemonene i eget array
       showPokemon(pokemon);
     }
     console.log(pokemonList);
@@ -41,7 +81,6 @@ function showPokemon(pokemon) {
   const cardSection = document.querySelector(".card-container");
   const pokemonCard = document.createElement("article");
   pokemonCard.classList.add("card");
-
   pokemonCard.innerHTML = `
   <h3>${pokemon.name}</h3>
     <img src="${pokemon.image}" alt="${pokemon.name}" style="width: 100%">
