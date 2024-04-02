@@ -1,25 +1,32 @@
 // Fetch som henter pokemon
 async function fetchPokemon() {
   try {
-    const response = await fetch("https://pokeapi.co/api/v2/pokemon/?limit=50");
+    const response = await fetch("https://pokeapi.co/api/v2/pokemon/?limit=250");
     const data = await response.json();
     const pokemonList = data.results;
-    makePokemonArray(pokemonList);
+    const randomPokemonlist = getRandomPokemon(pokemonList);
+    makePokemonArray(randomPokemonlist);
   } catch (error) {
     console.log("Kunne ikke laste inn pokemon: " + error);
   }
 }
+//henter tilfeldige pokemon
+function getRandomPokemon(pokemonList){
+
+  const editPokemonOrder = pokemonList.sort(() => Math.random() - 0.5);
+  const randomPokemon = editPokemonOrder.slice(0, 50);
+  return randomPokemon;
+}
+
 // Funksjon som lager pokemon array med de forskjellige objektene vi vil ha med
-async function makePokemonArray(pokemonList) {
+async function makePokemonArray(randomPokemonList) {
   try {
-    for (let i = 0; i < pokemonList.length; i++) {
-      const response = await fetch(pokemonList[i].url);
+    for (let i = 0; i < randomPokemonList.length; i++) {
+      const response = await fetch(randomPokemonList[i].url);
       const data = await response.json();
       let pokemon = {
-        image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${
-          i + 1
-        }.png`, // spirits = bilde til pokemonen. ${i + 1} brukes for å oppnå riktig bilde per pokemon
-        name: pokemonList[i].name,
+        image: data.sprites.front_default, // spirits = bilde til pokemonen
+        name: randomPokemonList[i].name,
         type: data.types[0].type.name, // velger kun den første type-en til pokemonen
       };
       showPokemon(pokemon);
