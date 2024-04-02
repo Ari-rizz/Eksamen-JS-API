@@ -1,7 +1,7 @@
 const typeColor = [
   { type: "normal", color: "beige" },
   { type: "fire", color: "red" },
-  { type: "water", color: "blue)" },
+  { type: "water", color: "blue" },
   { type: "electric", color: "yellow" },
   { type: "grass", color: "green" },
   { type: "ice", color: "cornflowerBlue" },
@@ -123,7 +123,7 @@ function showPokemon(pokemon) {
 
     pokemonCard.style.textAlign = "center";
     pokemonCard.style.borderRadius = "10px";
-    pokemonCard.style.backgroundColor = "green";
+    pokemonCard.style.backgroundColor = getTypeColor(pokemon.type);//setter bakrunnen til samme farge for alle som er samme type
     pokemonCard.style.border = "2px";
     pokemonCard.style.borderColor = "black";
     pokemonCard.style.borderStyle = "solid";
@@ -138,5 +138,11 @@ function showPokemon(pokemon) {
     cardSection.appendChild(pokemonCard);
   });
 }
+// finner riktig farge til rikig pokemon basert på type
+function getTypeColor(type) {
+  const typeColorPokemon = typeColor.find(item => item.type === type.toLowerCase());
+  return typeColorPokemon.color 
+}
+
 
 fetchPokemon();
