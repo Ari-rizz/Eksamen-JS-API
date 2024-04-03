@@ -37,7 +37,7 @@ async function fetchPokemon() {
     console.log("Kunne ikke laste inn pokemon: " + error);
   }
 }
-// Event listner for å gi type-knappene en funksjon
+// Eventlistner for å gi type-knappene en funksjon
 document.querySelectorAll(".filter-type button").forEach((button) => {
   button.addEventListener("click", () => {
     const type = button.textContent.toLowerCase();
@@ -113,7 +113,7 @@ function showPokemon(pokemon) {
     editButton.classList.add("editBtn");
     editButton.textContent = "Rediger";
     editButton.addEventListener("click", () => {
-      //redigerings funksjon  ;
+      editPokemon(pokemonCard) ;
     });
 
     pokemonCard.appendChild(editButton);
@@ -151,6 +151,28 @@ function getTypeColor(type) {
   const typeColorPokemon = typeColor.find(item => item.type === type.toLowerCase());
   return typeColorPokemon.color 
 }
+function editPokemon(pokemonCard) {
+  // bruker .dataset.index for å finne riktig kort
+  const name = pokemonCard.dataset.name;
+  const type = pokemonCard.dataset.type;
+  const index = parseInt(pokemonCard.dataset.index);
 
+  //Spør brukeren om ny info
+  const newName = prompt("Rediger navnet til Pokemonen", name);
+  const newType = prompt("Rediger typen til Pokemonen", type);
+   
+ 
+  //Redigere den nye infoen og legger til bildet
+  pokemonCard.dataset.name = newName;
+  pokemonCard.dataset.type = newType;
+
+  pokemonCard.querySelector("h3").textContent = newName;
+  pokemonCard.querySelector("p").textContent = newType;
+  pokemonCard.querySelector("img").src ="/assets/pikachu-5992504_640.png";
+// oppdaterer arrayet
+  pokemonArray[index].name = newName;
+  pokemonArray[index].type = newType;
+  pokemonArray[index].image = "/assets/pikachu-5992504_640.png";
+}
 
 fetchPokemon();
