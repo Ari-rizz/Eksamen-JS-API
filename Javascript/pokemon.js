@@ -1,7 +1,7 @@
 const typeColor = [
   { type: "normal", color: "beige" },
   { type: "fire", color: "red" },
-  { type: "water", color: "blue" },
+  { type: "water", color: "DodgerBlue" },
   { type: "electric", color: "yellow" },
   { type: "grass", color: "green" },
   { type: "ice", color: "cornflowerBlue" },
@@ -13,14 +13,15 @@ const typeColor = [
   { type: "bug", color: "DarkKhaki" },
   { type: "rock", color: "Grey" },
   { type: "ghost", color: "Indigo" },
-  { type: "dragon", color: "Navy" },
+  { type: "dragon", color: "AquaMarine" },
   { type: "dark", color: "DimGray" },
   { type: "steel", color: "LigthGray" },
   { type: "fairy", color: "DeepPink" },
+  
 ];
 
 let pokemonArray = []; // Array for 50 tilfeldige pokemon
-let cardSection = "";
+
 
 // Fetch som henter pokemon
 async function fetchPokemon() {
@@ -36,7 +37,7 @@ async function fetchPokemon() {
     console.log("Kunne ikke laste inn pokemon: " + error);
   }
 }
-// Event listner for å gi knappene en funksjon
+// Event listner for å gi type-knappene en funksjon
 document.querySelectorAll(".filter-type button").forEach((button) => {
   button.addEventListener("click", () => {
     const type = button.textContent.toLowerCase();
@@ -51,6 +52,11 @@ function filterPokemon(type) {
   cardSection = document.querySelector(".card-container");
   cardSection.innerHTML = "";
   showPokemon(filteredPokemon);
+
+  document.querySelector(".all-types").addEventListener("click", () => {
+    cardSection.innerHTML = "";
+    showPokemon(pokemonArray)
+  });
   console.log(filteredPokemon);
 }
 
@@ -61,7 +67,7 @@ function getRandomPokemon(pokemonList) {
   return randomPokemon;
 }
 
-// Funksjon som lager pokemon array med de forskjellige objektene vi vil ha med
+// Funksjon som samler objektene våre i et array 
 async function makePokemonArray(randomPokemonList) {
   try {
     for (let i = 0; i < randomPokemonList.length; i++) {
@@ -123,10 +129,12 @@ function showPokemon(pokemon) {
 
     pokemonCard.style.textAlign = "center";
     pokemonCard.style.borderRadius = "10px";
+    pokemonCard.style.color = "black";
     pokemonCard.style.backgroundColor = getTypeColor(pokemon.type);//setter bakrunnen til samme farge for alle som er samme type
     pokemonCard.style.border = "2px";
     pokemonCard.style.borderColor = "black";
     pokemonCard.style.borderStyle = "solid";
+
     //endre første bokstaven til stor forbokstav
     pokemonCard.querySelector("h3").style.textTransform = "capitalize";
     pokemonCard.querySelector("p").style.textTransform = "capitalize";
