@@ -120,7 +120,7 @@ function showPokemon(pokemon) {
     deleteButton.classList.add("deleteBtn");
     deleteButton.textContent = "Slett";
     deleteButton.addEventListener("click", () => {
-      //slette funksjon ;
+      deletePokemon(pokemon)
     });
 
     pokemonCard.appendChild(deleteButton);
@@ -151,6 +151,26 @@ function getTypeColor(type) {
   );
   return typeColorPokemon.color;
 }
+
+function deletePokemon(pokemonToDelete){
+  // Bruker .filter-teknikken for å filtrere ut alle andre pokemon som ikke skal slettes 
+  pokemonArray = pokemonArray.filter(p => p.name !== pokemonToDelete.name);
+
+  // Finner og fjerner kortet som skal slettes
+  const cardSection = document.querySelector(".card-container");
+  const pokemonCards = cardSection.querySelectorAll(".card");
+  pokemonCards.forEach(card => {
+    if (card.querySelector("h3").textContent === pokemonToDelete.name) {
+      card.remove();
+    }
+  });
+  let usersPokemon = JSON.parse(localStorage.getItem("usersPokemon"));
+  if(usersPokemon){
+    usersPokemon = usersPokemon.filter( p => p !== pokemonToDelete.name);
+    localStorage.setItem("usersPokemon", JSON.stringify(usersPokemon))
+  }
+}
+
 function editPokemon(pokemonCard) {
   // bruker .dataset.index for å finne riktig kort
   const name = pokemonCard.dataset.name;
@@ -209,11 +229,13 @@ function makePokemon() {
   pokemonArray.push(newPokemon);
 
   newPokemonCard.style.backgroundColor = getTypeColor(newPokemonType);
+
+  savedPokemon(newPokemon);
 }
 
 function savedPokemon(pokemon){
 
-  let usersPokemon = JSON.parse(localStorage.getItem(`usersPokemon`));
+  let usersPokemon = JSON.parse(localStorage.getItem("usersPokemon"));
   if(!usersPokemon){
     usersPokemon = [];
   }// vis usersPokemon = null så lages et tomt array
@@ -224,9 +246,12 @@ function savedPokemon(pokemon){
   }
   usersPokemon.push(pokemon);
 
-  localStorage.setItem(`usersPokemon`, JSON.stringify(usersPokemon));
+  localStorage.setItem("usersPokemon", JSON.stringify(usersPokemon));
 }
 
+dispalyUsersPokemon(){
+  
+}
 
 localStorage.clear();
 fetchPokemon();
