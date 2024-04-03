@@ -17,11 +17,9 @@ const typeColor = [
   { type: "dark", color: "DimGray" },
   { type: "steel", color: "LigthGray" },
   { type: "fairy", color: "DeepPink" },
-  
 ];
 
 let pokemonArray = []; // Array for 50 tilfeldige pokemon
-
 
 // Fetch som henter pokemon
 async function fetchPokemon() {
@@ -55,7 +53,7 @@ function filterPokemon(type) {
 
   document.querySelector(".all-types").addEventListener("click", () => {
     cardSection.innerHTML = "";
-    showPokemon(pokemonArray)
+    showPokemon(pokemonArray);
   });
   console.log(filteredPokemon);
 }
@@ -67,7 +65,7 @@ function getRandomPokemon(pokemonList) {
   return randomPokemon;
 }
 
-// Funksjon som samler objektene våre i et array 
+// Funksjon som samler objektene våre i et array
 async function makePokemonArray(randomPokemonList) {
   try {
     for (let i = 0; i < randomPokemonList.length; i++) {
@@ -113,7 +111,7 @@ function showPokemon(pokemon) {
     editButton.classList.add("editBtn");
     editButton.textContent = "Rediger";
     editButton.addEventListener("click", () => {
-      editPokemon(pokemonCard) ;
+      editPokemon(pokemonCard);
     });
 
     pokemonCard.appendChild(editButton);
@@ -130,7 +128,7 @@ function showPokemon(pokemon) {
     pokemonCard.style.textAlign = "center";
     pokemonCard.style.borderRadius = "10px";
     pokemonCard.style.color = "black";
-    pokemonCard.style.backgroundColor = getTypeColor(pokemon.type);//setter bakrunnen til samme farge for alle som er samme type
+    pokemonCard.style.backgroundColor = getTypeColor(pokemon.type); //setter bakrunnen til samme farge for alle som er samme type
     pokemonCard.style.border = "2px";
     pokemonCard.style.borderColor = "black";
     pokemonCard.style.borderStyle = "solid";
@@ -148,8 +146,10 @@ function showPokemon(pokemon) {
 }
 // finner riktig farge til rikig pokemon basert på type
 function getTypeColor(type) {
-  const typeColorPokemon = typeColor.find(item => item.type === type.toLowerCase());
-  return typeColorPokemon.color 
+  const typeColorPokemon = typeColor.find(
+    (item) => item.type === type.toLowerCase()
+  );
+  return typeColorPokemon.color;
 }
 function editPokemon(pokemonCard) {
   // bruker .dataset.index for å finne riktig kort
@@ -160,48 +160,55 @@ function editPokemon(pokemonCard) {
   //Spør brukeren om ny info
   const newName = prompt("Rediger navnet til Pokemonen", name);
   const newType = prompt("Rediger typen til Pokemonen", type);
-   
- 
-  //Redigere den nye infoen 
+
+  //Redigere den nye infoen
   pokemonCard.dataset.name = newName;
   pokemonCard.dataset.type = newType;
 
   pokemonCard.querySelector("h3").textContent = newName;
   pokemonCard.querySelector("p").textContent = newType;
 
-  pokemonCard.style.backgroundColor = getTypeColor(newType)
+  pokemonCard.style.backgroundColor = getTypeColor(newType);
 
-// oppdaterer arrayet
+  // oppdaterer arrayet
   pokemonArray[index].name = newName;
-  pokemonArray[index].type = newType;  
+  pokemonArray[index].type = newType;
 }
 
-
 //lager eventlistner for lag pokemon knappen
-const makeNewPokemon = document.querySelector(".make-pokemon")
+const makeNewPokemon = document.querySelector(".make-pokemon");
 makeNewPokemon.addEventListener("click", () => {
-makePokemon()
+  makePokemon();
 });
 
-
-// funksjon for å lage pokemon 
-function makePokemon(){
+// funksjon for å lage pokemon
+function makePokemon() {
   const newPokemonCard = document.createElement("article");
-  newPokemonCard.classList.add("card")
+  newPokemonCard.classList.add("card");
 
-    //Spør brukeren om ny info
-    const newPokemonName = prompt("Hva er navnet til din nye Pokemon?");
-    const newPokemonType = prompt("Hva er typen til din nye Pokemon?");
-// lager en const som samler objektene 
-    const newPokemon = {
-      name: newPokemonName,
-      image: "/assets/pikachu-5992504_640.png",
-      type: newPokemonType,
-    };
-  
-  
-    pokemonCard.style.backgroundColor = getTypeColor(newType); 
+  //Spør brukeren om ny info
+  const newPokemonName = prompt("Hva er navnet til din nye Pokemon?");
+  const newPokemonType = prompt("Hva er typen til din nye Pokemon?");
+  // lager en const som samler objektene og lages det til et kort
+  const newPokemon = {
+    name: newPokemonName,
+    image: "/assets/pikachu-5992504_640.png",
+    type: newPokemonType,
+  };
+  newPokemonCard.innerHTML = `
+    <h3>${newPokemon.name}</h3>
+    <img src="${newPokemon.image}" alt="${newPokemon.name}" style="width: 100%">
+    <div class="container">
+      <p>${newPokemon.type}</p>
+    </div>
+  `;
+  // legger til kortet med de andre
+  const cardSection = document.querySelector(".card-container");
+  cardSection.appendChild(newPokemonCard);
+  //legger til kort i arrayet
+  pokemonArray.push(newPokemon);
+
+  newPokemonCard.style.backgroundColor = getTypeColor(newPokemonType);
 }
 
 fetchPokemon();
-
