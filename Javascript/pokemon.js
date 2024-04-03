@@ -102,7 +102,7 @@ function showPokemon(pokemon) {
     savePokemonButton.classList.add("saveBtn");
     savePokemonButton.textContent = "Lagre";
     savePokemonButton.addEventListener("click", () => {
-      //lagre funksjon  ;
+ savedPokemon(pokemon);
     });
 
     pokemonCard.appendChild(savePokemonButton);
@@ -211,4 +211,22 @@ function makePokemon() {
   newPokemonCard.style.backgroundColor = getTypeColor(newPokemonType);
 }
 
+function savedPokemon(pokemon){
+
+  let usersPokemon = JSON.parse(localStorage.getItem(`usersPokemon`));
+  if(!usersPokemon){
+    usersPokemon = [];
+  }// vis usersPokemon = null så lages et tomt array
+
+  if(usersPokemon.length >= 5){
+    alert("Du har allerede 5 Pokemon. Om du vil ha flere må du slette noen av de gamle.");
+    return;
+  }
+  usersPokemon.push(pokemon);
+
+  localStorage.setItem(`usersPokemon`, JSON.stringify(usersPokemon));
+}
+
+
+localStorage.clear();
 fetchPokemon();
