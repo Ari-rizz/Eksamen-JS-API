@@ -162,17 +162,46 @@ function editPokemon(pokemonCard) {
   const newType = prompt("Rediger typen til Pokemonen", type);
    
  
-  //Redigere den nye infoen og legger til bildet
+  //Redigere den nye infoen 
   pokemonCard.dataset.name = newName;
   pokemonCard.dataset.type = newType;
 
   pokemonCard.querySelector("h3").textContent = newName;
   pokemonCard.querySelector("p").textContent = newType;
-  pokemonCard.querySelector("img").src ="/assets/pikachu-5992504_640.png";
+
+  pokemonCard.style.backgroundColor = getTypeColor(newType)
+
 // oppdaterer arrayet
   pokemonArray[index].name = newName;
-  pokemonArray[index].type = newType;
-  pokemonArray[index].image = "/assets/pikachu-5992504_640.png";
+  pokemonArray[index].type = newType;  
+}
+
+
+//lager eventlistner for lag pokemon knappen
+const makeNewPokemon = document.querySelector(".make-pokemon")
+makeNewPokemon.addEventListener("click", () => {
+makePokemon()
+});
+
+
+// funksjon for å lage pokemon 
+function makePokemon(){
+  const newPokemonCard = document.createElement("article");
+  newPokemonCard.classList.add("card")
+
+    //Spør brukeren om ny info
+    const newPokemonName = prompt("Hva er navnet til din nye Pokemon?");
+    const newPokemonType = prompt("Hva er typen til din nye Pokemon?");
+// lager en const som samler objektene 
+    const newPokemon = {
+      name: newPokemonName,
+      image: "/assets/pikachu-5992504_640.png",
+      type: newPokemonType,
+    };
+  
+  
+    pokemonCard.style.backgroundColor = getTypeColor(newType); 
 }
 
 fetchPokemon();
+
