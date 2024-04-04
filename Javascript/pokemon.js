@@ -133,7 +133,7 @@ function createPokemonCard(pokemon) {
   pokemonCard.style.border = "2px";
   pokemonCard.style.borderColor = "black";
   pokemonCard.style.borderStyle = "solid";
-
+pokemonCard.style.height = "450px";
   // endrer første bokstaven til stor forbokstav
   pokemonCard.querySelector("h3").style.textTransform = "capitalize";
   pokemonCard.querySelector("p").style.textTransform = "capitalize";
@@ -143,7 +143,7 @@ function createPokemonCard(pokemon) {
 
 function showPokemon(pokemonList) {
   const cardSection = document.querySelector(".card-container");
-  cardSection.innerHTML = ""; // Fjerner eksisterende kort før vi viser de nye
+  cardSection.innerHTML = ""; 
 
   pokemonList.forEach((pokemon) => {
     const pokemonCard = createPokemonCard(pokemon);
@@ -211,6 +211,7 @@ function editPokemon(pokemonCard) {
     });
     localStorage.setItem("usersPokemon", JSON.stringify(usersPokemon));
   }
+  // Passer på at de redigerte kortene ender i riktig type-filtrering
   filterPokemon(newType);
 }
 
@@ -286,6 +287,38 @@ function displayUsersPokemon() {
     cardSection.style.gap = "20px";
   }
 }
+
+document.body.style.backgroundColor = "silver";
+document.body.style.textAlign = "center";
+document.body.style.fontFamily = "fantasy";
+
+document.querySelectorAll("h1").forEach(h1 => {
+  h1.style.fontSize = "50px";
+});
+
+document.querySelectorAll(".make-pokemon-container button").forEach(button => {
+  button.style.fontFamily = "fantasy";
+button.style.margin = "10px";
+button.style.height = "40px";
+button.style.width = "170px";
+button.style.borderRadius = "25px";
+});
+document.querySelectorAll(".filter-type").forEach(div => {
+  div.style.display = "flex";
+  div.style.flexWrap = "wrap";
+  div.style.justifyContent = "space-between";
+});
+document.querySelectorAll(".filter-type button").forEach(button => {
+  button.style.fontFamily = "fantasy";
+button.style.margin = "10px";
+button.style.height = "60px";
+button.style.width = "120px";
+button.style.fontSize = "20px";
+button.style.borderRadius = "25px";
+});
+
+
+
 localStorage.clear();
 fetchPokemon();
 displayUsersPokemon();
