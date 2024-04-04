@@ -112,6 +112,7 @@ function createPokemonCard(pokemon) {
   editButton.textContent = "Rediger";
   editButton.addEventListener("click", () => {
     editPokemon(pokemonArray, pokemonCard);
+    displayUsersPokemon();
   });
 
   pokemonCard.appendChild(editButton);
@@ -194,10 +195,21 @@ function editPokemon(pokemonArray, pokemonCard) {
 
   pokemonCard.style.backgroundColor = getTypeColor(newType);
 
-  // oppdaterer arrayet
+  // Oppdaterer arrayet
   pokemonArray.name = newName;
   pokemonArray.type = newType;
-  console.log(pokemonArray)
+ // Hvis pokemonen til brukeren finnes så skal den også bli redigert
+  const usersPokemon =JSON.parse(localStorage.getItem("usersPokemon"));
+  if(usersPokemon) {
+    usersPokemon.forEach((pokemon) => {
+      if (pokemon.name === pokemonArray.name){
+        pokemon.name = newName;
+        pokemon.type = newType;
+      }
+    });
+    localStorage.setItem("usersPokemon", JSON.stringify(usersPokemon));
+    displayUsersPokemon();
+  }
 
 }
 
@@ -215,7 +227,7 @@ function makePokemon() {
   // Spør brukeren om ny info
   const newPokemonName = prompt("Hva er navnet til din nye Pokemon?");
   const newPokemonType = prompt("Hva er typen til din nye Pokemon?");
-  // lager en const som samler objektene og lages det til et kort
+  // Lager en const som samler objektene og lages det til et kort
   const newPokemon = {
     name: newPokemonName,
     image: "/assets/pikachu-5992504_640.png",
@@ -228,10 +240,10 @@ function makePokemon() {
       <p>${newPokemon.type}</p>
     </div>
   `;
-  // legger til kortet med de andre
+  // Legger til kortet med de andre
   const cardSection = document.querySelector(".card-container");
   cardSection.appendChild(newPokemonCard);
-  // legger til kort i arrayet
+  // Legger til kort i arrayet
   pokemonArray.push(newPokemon);
 
   newPokemonCard.style.backgroundColor = getTypeColor(newPokemonType);
@@ -254,7 +266,7 @@ function savedPokemon(pokemon) {
   usersPokemon.push(pokemon);
 
   localStorage.setItem("usersPokemon", JSON.stringify(usersPokemon));
-displayUsersPokemon();
+  displayUsersPokemon();
 }
 function displayUsersPokemon() {
   const usersPokemon = JSON.parse(localStorage.getItem("usersPokemon"));
