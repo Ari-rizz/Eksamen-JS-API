@@ -111,7 +111,7 @@ function createPokemonCard(pokemon) {
   editButton.classList.add("editBtn");
   editButton.textContent = "Rediger";
   editButton.addEventListener("click", () => {
-    editPokemon(pokemonArray, pokemonCard);
+    editPokemon(pokemonCard);
     displayUsersPokemon();
   });
 
@@ -185,33 +185,35 @@ function deletePokemon(pokemonToDelete) {
   displayUsersPokemon();
 }
 
-function editPokemon(pokemonArray, pokemonCard) {
+function editPokemon(pokemonCard) {
   // Spør brukeren om ny info
-  const newName = prompt("Rediger navnet til Pokemonen", pokemonArray.name);
-  const newType = prompt("Rediger typen til Pokemonen",pokemonArray.type);
+  const newName = prompt("Rediger navnet til Pokemonen", pokemonCard.querySelector("h3").textContent);
+  const newType = prompt("Rediger typen til Pokemonen", pokemonCard.querySelector("p").textContent);
+
+  const index = pokemonArray.findIndex(pokemon => pokemon.name === pokemonCard.querySelector("h3").textContent);
 
   pokemonCard.querySelector("h3").textContent = newName;
   pokemonCard.querySelector("p").textContent = newType;
 
+  pokemonArray[index].name = newName;
+  pokemonArray[index].type = newType;
+
   pokemonCard.style.backgroundColor = getTypeColor(newType);
 
-  // Oppdaterer arrayet
-  pokemonArray.name = newName;
-  pokemonArray.type = newType;
- // Hvis pokemonen til brukeren finnes så skal den også bli redigert
-  const usersPokemon =JSON.parse(localStorage.getItem("usersPokemon"));
-  if(usersPokemon) {
-    usersPokemon.forEach((pokemon) => {
-      if (pokemon.name === pokemonArray.name){
-        pokemon.name = newName;
-        pokemon.type = newType;
+  const usersPokemon = JSON.parse(localStorage.getItem("usersPokemon"));
+  if (usersPokemon) {
+    usersPokemon.forEach((userPokemon) => {
+      if (userPokemon) {
+        userPokemon.name = newName;
+        userPokemon.type = newType;
+        displayUsersPokemon();
       }
     });
     localStorage.setItem("usersPokemon", JSON.stringify(usersPokemon));
-    displayUsersPokemon();
   }
-
+  filterPokemon(newType);
 }
+
 
 // Lager eventlistener for lag pokemon knappen
 const makeNewPokemon = document.querySelector(".make-pokemon");
