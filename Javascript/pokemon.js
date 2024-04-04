@@ -15,7 +15,7 @@ const typeColor = [
   { type: "ghost", color: "Indigo" },
   { type: "dragon", color: "AquaMarine" },
   { type: "dark", color: "DimGray" },
-  { type: "steel", color: "LightGray" }, 
+  { type: "steel", color: "LightGray" },
   { type: "fairy", color: "DeepPink" },
 ];
 
@@ -133,7 +133,7 @@ function createPokemonCard(pokemon) {
   pokemonCard.style.border = "2px";
   pokemonCard.style.borderColor = "black";
   pokemonCard.style.borderStyle = "solid";
-pokemonCard.style.height = "450px";
+  pokemonCard.style.height = "450px";
   // endrer første bokstaven til stor forbokstav
   pokemonCard.querySelector("h3").style.textTransform = "capitalize";
   pokemonCard.querySelector("p").style.textTransform = "capitalize";
@@ -143,7 +143,7 @@ pokemonCard.style.height = "450px";
 
 function showPokemon(pokemonList) {
   const cardSection = document.querySelector(".card-container");
-  cardSection.innerHTML = ""; 
+  cardSection.innerHTML = "";
 
   pokemonList.forEach((pokemon) => {
     const pokemonCard = createPokemonCard(pokemon);
@@ -187,10 +187,18 @@ function deletePokemon(pokemonToDelete) {
 
 function editPokemon(pokemonCard) {
   // Spør brukeren om ny info
-  const newName = prompt("Rediger navnet til Pokemonen", pokemonCard.querySelector("h3").textContent);
-  const newType = prompt("Rediger typen til Pokemonen", pokemonCard.querySelector("p").textContent);
+  const newName = prompt(
+    "Rediger navnet til Pokemonen",
+    pokemonCard.querySelector("h3").textContent
+  );
+  const newType = prompt(
+    "Rediger typen til Pokemonen",
+    pokemonCard.querySelector("p").textContent
+  );
 
-  const index = pokemonArray.findIndex(pokemon => pokemon.name === pokemonCard.querySelector("h3").textContent);
+  const index = pokemonArray.findIndex(
+    (pokemon) => pokemon.name === pokemonCard.querySelector("h3").textContent
+  );
 
   pokemonCard.querySelector("h3").textContent = newName;
   pokemonCard.querySelector("p").textContent = newType;
@@ -214,7 +222,6 @@ function editPokemon(pokemonCard) {
   // Passer på at de redigerte kortene ender i riktig type-filtrering
   filterPokemon(newType);
 }
-
 
 // Lager eventlistener for lag pokemon knappen
 const makeNewPokemon = document.querySelector(".make-pokemon");
@@ -292,32 +299,32 @@ document.body.style.backgroundColor = "silver";
 document.body.style.textAlign = "center";
 document.body.style.fontFamily = "fantasy";
 
-document.querySelectorAll("h1").forEach(h1 => {
+document.querySelectorAll("h1").forEach((h1) => {
   h1.style.fontSize = "50px";
 });
 
-document.querySelectorAll(".make-pokemon-container button").forEach(button => {
-  button.style.fontFamily = "fantasy";
-button.style.margin = "10px";
-button.style.height = "40px";
-button.style.width = "170px";
-button.style.borderRadius = "25px";
-});
-document.querySelectorAll(".filter-type").forEach(div => {
+document
+  .querySelectorAll(".make-pokemon-container button")
+  .forEach((button) => {
+    button.style.fontFamily = "fantasy";
+    button.style.margin = "10px";
+    button.style.height = "40px";
+    button.style.width = "170px";
+    button.style.borderRadius = "25px";
+  });
+document.querySelectorAll(".filter-type").forEach((div) => {
   div.style.display = "flex";
   div.style.flexWrap = "wrap";
   div.style.justifyContent = "space-between";
 });
-document.querySelectorAll(".filter-type button").forEach(button => {
+document.querySelectorAll(".filter-type button").forEach((button) => {
   button.style.fontFamily = "fantasy";
-button.style.margin = "10px";
-button.style.height = "60px";
-button.style.width = "120px";
-button.style.fontSize = "20px";
-button.style.borderRadius = "25px";
+  button.style.margin = "10px";
+  button.style.height = "60px";
+  button.style.width = "120px";
+  button.style.fontSize = "20px";
+  button.style.borderRadius = "25px";
 });
-
-
 
 localStorage.clear();
 fetchPokemon();
