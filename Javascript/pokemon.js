@@ -15,7 +15,7 @@ const typeColor = [
   { type: "ghost", color: "Indigo" },
   { type: "dragon", color: "AquaMarine" },
   { type: "dark", color: "DimGray" },
-  { type: "steel", color: "LigthGray" },
+  { type: "steel", color: "LightGray" }, 
   { type: "fairy", color: "DeepPink" },
 ];
 
@@ -30,24 +30,33 @@ async function fetchPokemon() {
     const data = await response.json();
     const pokemonList = data.results;
     const randomPokemonlist = getRandomPokemon(pokemonList);
-    makePokemonArray(randomPokemonlist);
+    await makePokemonArray(randomPokemonlist);
   } catch (error) {
     console.log("Kunne ikke laste inn pokemon: " + error);
   }
 }
-// Eventlistner for å gi type-knappene en funksjon
+
+// Henter tilfeldige pokemon
+function getRandomPokemon(pokemonList) {
+  const editPokemonOrder = pokemonList.sort(() => Math.random() - 0.5);
+  const randomPokemon = editPokemonOrder.slice(0, 50);
+  return randomPokemon;
+}
+
+// Eventlistener for å gi type-knappene en funksjon
 document.querySelectorAll(".filter-type button").forEach((button) => {
   button.addEventListener("click", () => {
     const type = button.textContent.toLowerCase();
     filterPokemon(type);
   });
 });
-// filterfunskjon for pokemonene
+
+// Filterfunksjon for pokemonene
 function filterPokemon(type) {
   const filteredPokemon = pokemonArray.filter(
     (pokemon) => pokemon.type.toLowerCase() === type
   );
-  cardSection = document.querySelector(".card-container");
+  const cardSection = document.querySelector(".card-container");
   cardSection.innerHTML = "";
   showPokemon(filteredPokemon);
 
@@ -55,14 +64,6 @@ function filterPokemon(type) {
     cardSection.innerHTML = "";
     showPokemon(pokemonArray);
   });
-  console.log(filteredPokemon);
-}
-
-//henter tilfeldige pokemon
-function getRandomPokemon(pokemonList) {
-  const editPokemonOrder = pokemonList.sort(() => Math.random() - 0.5);
-  const randomPokemon = editPokemonOrder.slice(0, 50);
-  return randomPokemon;
 }
 
 // Funksjon som samler objektene våre i et array
@@ -72,11 +73,11 @@ async function makePokemonArray(randomPokemonList) {
       const response = await fetch(randomPokemonList[i].url);
       const data = await response.json();
       let pokemon = {
-        image: data.sprites.front_default, // spirites = bilde til pokemonen
+        image: data.sprites.front_default, // sprites = bilde til pokemonen
         name: randomPokemonList[i].name,
         type: data.types[0].type.name, // velger kun den første type-en til pokemonen
       };
-      pokemonArray.push(pokemon); //legger til de 50 pokemonene i eget array
+      pokemonArray.push(pokemon); // legger til de 50 pokemonene i eget array
     }
     console.log(pokemonArray);
     showPokemon(pokemonArray);
@@ -84,11 +85,12 @@ async function makePokemonArray(randomPokemonList) {
     console.log("Kunne ikke laste inn pokemon" + error);
   }
 }
+
 // Funksjon som lager pokemon kortene
 function createPokemonCard(pokemon) {
-    const pokemonCard = document.createElement("article");
-    pokemonCard.classList.add("card");
-    pokemonCard.innerHTML = `
+  const pokemonCard = document.createElement("article");
+  pokemonCard.classList.add("card");
+  pokemonCard.innerHTML = `
     <h3>${pokemon.name}</h3>
     <img src="${pokemon.image}" alt="${pokemon.name}" style="width: 100%">
     <div class="container">
@@ -96,63 +98,63 @@ function createPokemonCard(pokemon) {
     </div>
   `;
 
-    const savePokemonButton = document.createElement("button");
-    savePokemonButton.classList.add("saveBtn");
-    savePokemonButton.textContent = "Lagre";
-    savePokemonButton.addEventListener("click", () => {
- savedPokemon(pokemon);
-    });
+  const savePokemonButton = document.createElement("button");
+  savePokemonButton.classList.add("saveBtn");
+  savePokemonButton.textContent = "Lagre";
+  savePokemonButton.addEventListener("click", () => {
+    savedPokemon(pokemon);
+  });
 
-    pokemonCard.appendChild(savePokemonButton);
+  pokemonCard.appendChild(savePokemonButton);
 
-    const editButton = document.createElement("button");
-    editButton.classList.add("editBtn");
-    editButton.textContent = "Rediger";
-    editButton.addEventListener("click", () => {
-      editPokemon(pokemonCard);
-    });
+  const editButton = document.createElement("button");
+  editButton.classList.add("editBtn");
+  editButton.textContent = "Rediger";
+  editButton.addEventListener("click", () => {
+    editPokemon(pokemonArray, pokemonCard);
+  });
 
-    pokemonCard.appendChild(editButton);
+  pokemonCard.appendChild(editButton);
 
-    const deleteButton = document.createElement("button");
-    deleteButton.classList.add("deleteBtn");
-    deleteButton.textContent = "Slett";
-    deleteButton.addEventListener("click", () => {
-      deletePokemon(pokemon)
-    });
+  const deleteButton = document.createElement("button");
+  deleteButton.classList.add("deleteBtn");
+  deleteButton.textContent = "Slett";
+  deleteButton.addEventListener("click", () => {
+    deletePokemon(pokemon);
+  });
 
-    pokemonCard.appendChild(deleteButton);
+  pokemonCard.appendChild(deleteButton);
 
-    pokemonCard.style.textAlign = "center";
-    pokemonCard.style.borderRadius = "10px";
-    pokemonCard.style.color = "black";
-    pokemonCard.style.backgroundColor = getTypeColor(pokemon.type); //setter bakrunnen til samme farge for alle som er samme type
-    pokemonCard.style.border = "2px";
-    pokemonCard.style.borderColor = "black";
-    pokemonCard.style.borderStyle = "solid";
+  pokemonCard.style.textAlign = "center";
+  pokemonCard.style.borderRadius = "10px";
+  pokemonCard.style.color = "black";
+  pokemonCard.style.backgroundColor = getTypeColor(pokemon.type); // setter bakgrunnen til samme farge for alle som er samme type
+  pokemonCard.style.border = "2px";
+  pokemonCard.style.borderColor = "black";
+  pokemonCard.style.borderStyle = "solid";
 
-    //endre første bokstaven til stor forbokstav
-    pokemonCard.querySelector("h3").style.textTransform = "capitalize";
-    pokemonCard.querySelector("p").style.textTransform = "capitalize";
-    
+  // endrer første bokstaven til stor forbokstav
+  pokemonCard.querySelector("h3").style.textTransform = "capitalize";
+  pokemonCard.querySelector("p").style.textTransform = "capitalize";
+
+  return pokemonCard;
+}
+
+function showPokemon(pokemonList) {
+  const cardSection = document.querySelector(".card-container");
+  cardSection.innerHTML = ""; // Fjerner eksisterende kort før vi viser de nye
+
+  pokemonList.forEach((pokemon) => {
+    const pokemonCard = createPokemonCard(pokemon);
     cardSection.appendChild(pokemonCard);
-  }
+  });
 
- function showPokemon(pokemonList) {
-    const cardSection = document.querySelector(".card-container");
-    cardSection.innerHTML = ''; // Fjerner eksisterende kort før vi viser de nye
-  
-    pokemonList.forEach((pokemon) => {
-      const pokemonCard = createPokemonCard(pokemon);
-      cardSection.appendChild(pokemonCard);
-    });
-  
-    cardSection.style.display = "grid";
-    cardSection.style.gridTemplateColumns = "repeat(5, 1fr)";
-    cardSection.style.gap = "20px";
-  }
+  cardSection.style.display = "grid";
+  cardSection.style.gridTemplateColumns = "repeat(5, 1fr)";
+  cardSection.style.gap = "20px";
+}
 
-// finner riktig farge til rikig pokemon basert på type
+// Finner riktig farge til riktig pokemon basert på type
 function getTypeColor(type) {
   const typeColorPokemon = typeColor.find(
     (item) => item.type === type.toLowerCase()
@@ -160,34 +162,34 @@ function getTypeColor(type) {
   return typeColorPokemon.color;
 }
 
-function deletePokemon(pokemonToDelete){
+function deletePokemon(pokemonToDelete) {
   // Fjern fra localStorage
   let usersPokemon = JSON.parse(localStorage.getItem("usersPokemon"));
-  usersPokemon = usersPokemon.filter(pokemon => pokemon.name !== pokemonToDelete.name);
+  usersPokemon = usersPokemon.filter(
+    (pokemon) => pokemon.name !== pokemonToDelete.name
+  );
   localStorage.setItem("usersPokemon", JSON.stringify(usersPokemon));
 
   // Fjern fra pokemonArray
-  pokemonArray = pokemonArray.filter(p => p.name !== pokemonToDelete.name);
+  pokemonArray = pokemonArray.filter((p) => p.name !== pokemonToDelete.name);
 
   // Fjern kortet fra visningen
   const cardSection = document.querySelector(".card-container");
   const pokemonCards = cardSection.querySelectorAll(".card");
-  pokemonCards.forEach(card => {
+  pokemonCards.forEach((card) => {
     if (card.querySelector("h3").textContent === pokemonToDelete.name) {
       card.remove();
     }
   });
 }
 
-function editPokemon(pokemonCard) {
+function editPokemon(pokemonArray, pokemonCard) {
   // bruker .dataset.index for å finne riktig kort
-  const name = pokemonCard.dataset.name;
-  const type = pokemonCard.dataset.type;
   const index = parseInt(pokemonCard.dataset.index);
 
-  //Spør brukeren om ny info
-  const newName = prompt("Rediger navnet til Pokemonen", pokemonArray[index].name);
-  const newType = prompt("Rediger typen til Pokemonen", pokemonArray[index].type);
+  // Spør brukeren om ny info
+  const newName = prompt("Rediger navnet til Pokemonen", pokemonArray.name);
+  const newType = prompt("Rediger typen til Pokemonen",pokemonArray.type);
 
   pokemonCard.querySelector("h3").textContent = newName;
   pokemonCard.querySelector("p").textContent = newType;
@@ -195,22 +197,23 @@ function editPokemon(pokemonCard) {
   pokemonCard.style.backgroundColor = getTypeColor(newType);
 
   // oppdaterer arrayet
-  pokemonArray[index].name = newName;
-  pokemonArray[index].type = newType;
+  pokemonArray.name = newName;
+  pokemonArray.type = newType;
+  console.log(pokemonArray)
 }
 
-//lager eventlistner for lag pokemon knappen
+// Lager eventlistener for lag pokemon knappen
 const makeNewPokemon = document.querySelector(".make-pokemon");
 makeNewPokemon.addEventListener("click", () => {
   makePokemon();
 });
 
-// funksjon for å lage pokemon
+// Funksjon for å lage pokemon
 function makePokemon() {
   const newPokemonCard = document.createElement("article");
   newPokemonCard.classList.add("card");
 
-  //Spør brukeren om ny info
+  // Spør brukeren om ny info
   const newPokemonName = prompt("Hva er navnet til din nye Pokemon?");
   const newPokemonType = prompt("Hva er typen til din nye Pokemon?");
   // lager en const som samler objektene og lages det til et kort
@@ -229,7 +232,7 @@ function makePokemon() {
   // legger til kortet med de andre
   const cardSection = document.querySelector(".card-container");
   cardSection.appendChild(newPokemonCard);
-  //legger til kort i arrayet
+  // legger til kort i arrayet
   pokemonArray.push(newPokemon);
 
   newPokemonCard.style.backgroundColor = getTypeColor(newPokemonType);
@@ -237,24 +240,23 @@ function makePokemon() {
   savedPokemon(newPokemon);
 }
 
-function savedPokemon(pokemon){
-
+function savedPokemon(pokemon) {
   let usersPokemon = JSON.parse(localStorage.getItem("usersPokemon"));
-  if(!usersPokemon){
+  if (!usersPokemon) {
     usersPokemon = [];
-  }// vis usersPokemon = null så lages et tomt array
+  } // vis usersPokemon = null så lages et tomt array
 
-  if(usersPokemon.length >= 5){
-    alert("Du har allerede 5 Pokemon. Om du vil ha flere må du slette noen av de gamle.");
+  if (usersPokemon.length >= 5) {
+    alert(
+      "Du har allerede 5 Pokemon. Om du vil ha flere må du slette noen av de gamle."
+    );
     return;
   }
   usersPokemon.push(pokemon);
 
   localStorage.setItem("usersPokemon", JSON.stringify(usersPokemon));
-console.log(localStorage)
+
 }
 
-console.log(localStorage)
 localStorage.clear();
 fetchPokemon();
-
