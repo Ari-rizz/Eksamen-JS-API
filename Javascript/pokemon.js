@@ -181,12 +181,10 @@ function deletePokemon(pokemonToDelete) {
       card.remove();
     }
   });
+  displayUsersPokemon();
 }
 
 function editPokemon(pokemonArray, pokemonCard) {
-  // bruker .dataset.index for å finne riktig kort
-  const index = parseInt(pokemonCard.dataset.index);
-
   // Spør brukeren om ny info
   const newName = prompt("Rediger navnet til Pokemonen", pokemonArray.name);
   const newType = prompt("Rediger typen til Pokemonen",pokemonArray.type);
@@ -200,6 +198,7 @@ function editPokemon(pokemonArray, pokemonCard) {
   pokemonArray.name = newName;
   pokemonArray.type = newType;
   console.log(pokemonArray)
+
 }
 
 // Lager eventlistener for lag pokemon knappen
@@ -255,8 +254,24 @@ function savedPokemon(pokemon) {
   usersPokemon.push(pokemon);
 
   localStorage.setItem("usersPokemon", JSON.stringify(usersPokemon));
-
+displayUsersPokemon();
 }
+function displayUsersPokemon() {
+  const usersPokemon = JSON.parse(localStorage.getItem("usersPokemon"));
+  if (usersPokemon) {
+    const cardSection = document.querySelector(".show-users-pokemon");
+    cardSection.innerHTML = ""; // Fjern eksisterende kort før vi viser de nye
 
+    usersPokemon.forEach((pokemon) => {
+      const pokemonCard = createPokemonCard(pokemon);
+      cardSection.appendChild(pokemonCard);
+    });
+
+    cardSection.style.display = "grid";
+    cardSection.style.gridTemplateColumns = "repeat(5, 1fr)";
+    cardSection.style.gap = "20px";
+  }
+}
 localStorage.clear();
 fetchPokemon();
+displayUsersPokemon();
