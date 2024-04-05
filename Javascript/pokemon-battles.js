@@ -15,5 +15,6 @@ console.log(usersPokemon)
     console.log("Fikk ikke hentet pokemon Informasjon" + error)
   }
 }
+//
 
 fetchBattlePokemon()
