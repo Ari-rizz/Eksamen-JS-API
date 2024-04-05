@@ -38,7 +38,7 @@ async function fetchPokemon() {
 
 // Henter tilfeldige pokemon
 function getRandomPokemon(pokemonList) {
-  const editPokemonOrder = pokemonList.sort(() => Math.random() - 0.5);//pokemonList.sort(() => Math.random() - 0.5) blander orginal listen 
+  const editPokemonOrder = pokemonList.sort(() => Math.random() - 0.5); //pokemonList.sort(() => Math.random() - 0.5) blander orginal listen
   const randomPokemon = editPokemonOrder.slice(0, 50);
   return randomPokemon;
 }
@@ -103,11 +103,10 @@ function createPokemonCard(pokemon) {
   savePokemonButton.addEventListener("click", () => {
     savedPokemon(pokemon);
   });
-  savePokemonButton.style.margin ="5px";
-  savePokemonButton.style.backgroundColor ="white";
-  savePokemonButton.style.fontFamily="fantasy";
-  savePokemonButton.style.borderRadius ="15px";
-
+  savePokemonButton.style.margin = "5px";
+  savePokemonButton.style.backgroundColor = "white";
+  savePokemonButton.style.fontFamily = "fantasy";
+  savePokemonButton.style.borderRadius = "15px";
 
   pokemonCard.appendChild(savePokemonButton);
 
@@ -118,12 +117,11 @@ function createPokemonCard(pokemon) {
     editPokemon(pokemonCard);
     displayUsersPokemon();
   });
-  editButton.style.margin ="5px";
-  editButton.style.backgroundColor ="white";
-  editButton.style.fontFamily="fantasy";
-  editButton.style.borderRadius ="15px";
+  editButton.style.margin = "5px";
+  editButton.style.backgroundColor = "white";
+  editButton.style.fontFamily = "fantasy";
+  editButton.style.borderRadius = "15px";
 
-  
   pokemonCard.appendChild(editButton);
 
   const deleteButton = document.createElement("button");
@@ -132,11 +130,10 @@ function createPokemonCard(pokemon) {
   deleteButton.addEventListener("click", () => {
     deletePokemon(pokemon);
   });
-  deleteButton.style.margin ="5px";
-  deleteButton.style.backgroundColor ="white";
-  deleteButton.style.fontFamily="fantasy";
-  deleteButton.style.borderRadius ="15px";
-
+  deleteButton.style.margin = "5px";
+  deleteButton.style.backgroundColor = "white";
+  deleteButton.style.fontFamily = "fantasy";
+  deleteButton.style.borderRadius = "15px";
 
   pokemonCard.appendChild(deleteButton);
 
@@ -210,9 +207,11 @@ function editPokemon(pokemonCard) {
     "Rediger typen til Pokemonen",
     pokemonCard.querySelector("p").textContent
   );
-// Sjekker om det er skrevet inn gyldig Type
-  const pokemonTypeReal =typeColor.some((item) => item.type.toLowerCase() === newType)
-  if(!pokemonTypeReal){
+  // Sjekker om det er skrevet inn gyldig Type
+  const pokemonTypeReal = typeColor.some(
+    (item) => item.type.toLowerCase() === newType
+  );
+  if (!pokemonTypeReal) {
     alert("Pokemon typen finnes ikke, prøv igjen");
     return;
   }
@@ -257,6 +256,15 @@ function makePokemon() {
   // Spør brukeren om ny info
   const newPokemonName = prompt("Hva er navnet til din nye Pokemon?");
   const newPokemonType = prompt("Hva er typen til din nye Pokemon?");
+
+  const newPokemonTypeReal = typeColor.some(
+    (item) => item.type.toLowerCase() === newPokemonType
+  );
+  if (!newPokemonTypeReal) {
+    alert("Pokemon typen finnes ikke, prøv igjen");
+    return;
+  }
+
   // Lager en const som samler objektene og lages det til et kort
   const newPokemon = {
     name: newPokemonName,
