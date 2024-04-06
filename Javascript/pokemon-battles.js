@@ -28,6 +28,8 @@ pokemonBase.push(data);
       type: data.types[0].type.name,
       imageFront: data.sprites.front_default,
       imageBack: data.sprites.back_default,
+      firstMove: data.moves[0].move.name,
+      secondMove: data.moves[1].move.name,
       hp:data.stats[0].base_stat,
       attack:data.stats[1].base_stat,
       defense:data.stats[2].base_stat,
@@ -52,6 +54,10 @@ function splitPokemon(){
 
   console.log("Brukerns pokemon:", usersPokemon);
   console.log("Motstaders pokemon:", opponentsPokemon);
+}
+
+function attackSystem(){
+
 }
 
 fetchBattlePokemon()
