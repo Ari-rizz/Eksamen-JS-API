@@ -56,7 +56,7 @@ function splitPokemon(){
   console.log("Brukerns pokemon:", usersPokemon);
   console.log("Motstaders pokemon:", opponentsPokemon);
 }
-
+//viser en pokemon hver når kampen starter, må nok endres for å kunne bytte pokemon
 function showOnePokemonEach(){
 
   if (usersPokemon.length > 0 && opponentsPokemon.length >0){
@@ -71,21 +71,47 @@ function showOnePokemonEach(){
      opponentsPokemonImg.src = opponentsPokemon[0].imageFront;
     opponentsPokemonImg.alt = opponentsPokemon[0].name;
     showingOpponentPokemon.appendChild(opponentsPokemonImg);
+
+    showMoves();
     
+  }else(alert("Kampen er ferdig!"));
+}
+// Angreps funksjon for første angrepe som skal gå ut på attack staten
+function attackSystem(){
+
+  const damage = Math.max(attackingPokemon.attack - defendingPokemon.defense, 0)
+
+  defendingPokemon.hp -= damage;
+
+}
+// Angreps funksjon for første angrepe som skal gå ut på attack staten
+function spescialAttackSystem(){
+
+  const damage = Math.max(attackingPokemon.specialAttack - defendingPokemon.specialDefense, 0)
+
+  defendingPokemon.hp -= damage;
+
+}
+//viser moves 
+function showMoves(){
+  if(usersPokemon.length > 0){
+    const moveSelection = document.querySelector(".move-selection");
+    moveSelection.innerHTML ="";
+
+    const moveList = document.createElement("div");
+    moveList.classList.add("move-list");
+
+    const firstAttackMove = document.createElement("button");
+    firstAttackMove.textContent = `${usersPokemon[0].firstMove}`;
+    moveList.appendChild(firstAttackMove);
+
+    const secondAttackMove = document.createElement("button");
+  secondAttackMove.textContent = `${usersPokemon[0].secondMove}`;
+  moveList.appendChild(secondAttackMove);
+
+moveSelection.appendChild(moveList);
+
   }
 }
 
-function attackSystem(){
-
-
-}
-
-function spescialAttackSystem(){
-
-
-}
-
-function chooseMove(){
-
-}
 fetchBattlePokemon()
