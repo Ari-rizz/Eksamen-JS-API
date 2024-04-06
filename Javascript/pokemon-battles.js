@@ -40,6 +40,7 @@ pokemonBase.push(data);
 pokemonToSplit.push(pokemon);
 }
 splitPokemon()
+showOnePokemonEach()
 console.log(pokemonToSplit);
   } catch (error) {
     console.log("Kunne ikke hente inn pokemon informasjon" + error);
@@ -56,8 +57,35 @@ function splitPokemon(){
   console.log("Motstaders pokemon:", opponentsPokemon);
 }
 
+function showOnePokemonEach(){
+
+  if (usersPokemon.length > 0 && opponentsPokemon.length >0){
+    const showingUserPokemon = document.querySelector(".users-showing-pokemon");
+   const usersPokemonImg = document.createElement("img");
+    usersPokemonImg.src = usersPokemon[0].imageBack;
+    usersPokemonImg.alt = usersPokemon[0].name;
+    showingUserPokemon.appendChild(usersPokemonImg);
+
+    const showingOpponentPokemon = document.querySelector(".opponents-showing-pokemon");
+    const opponentsPokemonImg = document.createElement("img");
+     opponentsPokemonImg.src = opponentsPokemon[0].imageFront;
+    opponentsPokemonImg.alt = opponentsPokemon[0].name;
+    showingOpponentPokemon.appendChild(opponentsPokemonImg);
+    
+  }
+}
+
 function attackSystem(){
+
 
 }
 
+function spescialAttackSystem(){
+
+
+}
+
+function chooseMove(){
+
+}
 fetchBattlePokemon()
