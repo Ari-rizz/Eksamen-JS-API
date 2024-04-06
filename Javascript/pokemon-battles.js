@@ -14,11 +14,11 @@ pokemonBase.push(data);
    }
    collectInfo();
   } catch(error){
-    console.log("Fikk ikke hentet pokemon Informasjon" + error)
+    console.log("Fikk ikke hentet pokemon Informasjon" + error);
   }
 }
 //Henter infoen vi vil ha med
-function collectInfo(){  
+ async function collectInfo(){  
   try {
   for (let i = 0; i < pokemonBase.length; i++) {
     const data = pokemonBase[i];
@@ -35,15 +35,23 @@ function collectInfo(){
       specialDefense:data.stats[4].base_stat,
       speed:data.stats[5].base_stat,
     };
-pokemonToSplit.push(pokemon)
+pokemonToSplit.push(pokemon);
 }
-console.log(pokemonToSplit)
+splitPokemon()
+console.log(pokemonToSplit);
   } catch (error) {
-    console.log("Kunne ikke hente inn pokemon informasjon" + error)
+    console.log("Kunne ikke hente inn pokemon informasjon" + error);
   }
 } 
 // Fordeler Pokemonene mellom brukeren og motstaderen
-function splitPokemon(){}
+function splitPokemon(){
+
+  const halfOfPokemon = Math.floor(pokemonToSplit.length / 2);
+  usersPokemon = pokemonToSplit.slice(0, halfOfPokemon);
+  opponentsPokemon = pokemonToSplit.slice(halfOfPokemon);
+
+  console.log("Brukerns pokemon:", usersPokemon);
+  console.log("Motstaders pokemon:", opponentsPokemon);
+}
 
 fetchBattlePokemon()
-console.log(pokemonToSplit)
