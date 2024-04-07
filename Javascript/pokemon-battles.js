@@ -85,7 +85,7 @@ function attackSystem(){
 
   opponentsPokemon[battlingPokemonOpponent].hp -= damage;
 
-  alert(`${usersPokemon[battlingPokemonUser]} gjorde ${damage} til ${opponentsPokemon[battlingPokemonOpponent]} med bruk av ${usersPokemon[battlingPokemonUser].firstMove}!`)
+  alert(`${usersPokemon[battlingPokemonUser].name} gjorde ${damage} til ${opponentsPokemon[battlingPokemonOpponent].name} med bruk av ${usersPokemon[battlingPokemonUser].firstMove}!`)
 opponentsAttack();
 }
 // Angreps funksjon for første angrepe som skal gå ut på  special-attack staten
@@ -95,31 +95,31 @@ function spescialAttackSystem(){
 
   opponentsPokemon[battlingPokemonOpponent].hp -= damage;
 
-  alert(`${usersPokemon[battlingPokemonUser]} gjorde ${damage} til ${opponentsPokemon[battlingPokemonOpponent]} med bruk av ${usersPokemon[battlingPokemonUser].secondMove}!`)
+  alert(`${usersPokemon[battlingPokemonUser].name} gjorde ${damage} til ${opponentsPokemon[battlingPokemonOpponent].name} med bruk av ${usersPokemon[battlingPokemonUser].secondMove}!`)
 
 opponentsAttack();
 
 }
 
 function opponentsAttack(){
+  const opponentsMoveList = [opponentsPokemon[battlingPokemonOpponent].firstMove,opponentsPokemon[battlingPokemonOpponent].secondMove]
+  const opponentsRandomMove = Math.floor(Math.random() * opponentsMoveList.length);
+  const opponentsRandomAttack = opponentsMoveList[opponentsRandomMove];
 
-  const opponentsRandomMove = Math.floor(Math.random() * opponentsPokemon[battlingPokemonOpponent].moves.length);
-  const opponentsRandomAttack = opponentsPokemon[battlingPokemonOpponent].moves[opponentsRandomMove].move.name;
-
-  if(opponentsRandomMove === 0){
+  if(opponentsRandomAttack === opponentsPokemon[battlingPokemonOpponent].secondMove){
     const damage = Math.max(opponentsPokemon[battlingPokemonOpponent].attack - usersPokemon[battlingPokemonUser].defense, 0)
 
     usersPokemon[battlingPokemonUser].hp -= damage;
 
-    alert(`${battlingPokemonOpponent} gjorde ${damage} til ${battlingPokemonUser} med bruk av ${opponentsRandomAttack}!`)
+    alert(`${opponentsPokemon[battlingPokemonOpponent].name} gjorde ${damage} til ${usersPokemon[battlingPokemonUser].name} med bruk av ${opponentsRandomAttack}!`)
   }
 
-  else if(opponentsRandomMove === 1){
+  else if(opponentsRandomAttack === opponentsPokemon[battlingPokemonOpponent].firstMove){
 
     const damage = Math.max(opponentsPokemon[battlingPokemonOpponent].specialAttack - usersPokemon[battlingPokemonUser].specialDefense, 0)
 
     usersPokemon[battlingPokemonUser].hp -= damage;
-    alert(`${battlingPokemonOpponent} gjorde ${damage} til ${battlingPokemonUser} med bruk av ${opponentsRandomAttack}!`)
+    alert(`${opponentsPokemon[battlingPokemonOpponent].name} gjorde ${damage} til ${usersPokemon[battlingPokemonUser].name} med bruk av ${opponentsRandomAttack}!`)
   }
 }
 
@@ -151,7 +151,12 @@ moveSelection.appendChild(moveList);
   }
 }
 function switchPokemon(){
+if(usersPokemon[battlingPokemonUser].hp >= 0){
 
+}
+if(opponentsPokemon[battlingPokemonUser].hp >= 0){
+  
+}
 }
 
 fetchBattlePokemon()
