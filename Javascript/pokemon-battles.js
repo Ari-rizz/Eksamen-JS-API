@@ -2,6 +2,8 @@ let pokemonToSplit = [];//Alle pokemon objektene våre med infoen vi vil ha
 let pokemonBase = [];//Pokemonene våre med all info
 let usersPokemon =[];//Brukerns Pokemon
 let opponentsPokemon =[];// Motstadners Pokemon
+let battlingPokemonUser = 0; // brukerens aktive Pokemon starter med den første i usersPokemon
+let battlingPokemonOpponent = 0; // brukerens aktive Pokemon  starter med den første i opponentsPokemon
 //Fetcher pokemon
 async function fetchBattlePokemon(){
   try{
@@ -62,14 +64,14 @@ function showOnePokemonEach(){
   if (usersPokemon.length > 0 && opponentsPokemon.length >0){
     const showingUserPokemon = document.querySelector(".users-showing-pokemon");
    const usersPokemonImg = document.createElement("img");
-    usersPokemonImg.src = usersPokemon[0].imageBack;
-    usersPokemonImg.alt = usersPokemon[0].name;
+    usersPokemonImg.src = usersPokemon[battlingPokemonUser].imageBack;
+    usersPokemonImg.alt = usersPokemon[battlingPokemonOpponent].name;
     showingUserPokemon.appendChild(usersPokemonImg);
 
     const showingOpponentPokemon = document.querySelector(".opponents-showing-pokemon");
     const opponentsPokemonImg = document.createElement("img");
-     opponentsPokemonImg.src = opponentsPokemon[0].imageFront;
-    opponentsPokemonImg.alt = opponentsPokemon[0].name;
+     opponentsPokemonImg.src = opponentsPokemon[battlingPokemonOpponent].imageFront;
+    opponentsPokemonImg.alt = opponentsPokemon[battlingPokemonOpponent].name;
     showingOpponentPokemon.appendChild(opponentsPokemonImg);
 
     showMoves();
@@ -79,17 +81,21 @@ function showOnePokemonEach(){
 // Angreps funksjon for første angrepe som skal gå ut på attack staten
 function attackSystem(){
 
-  const damage = Math.max(usersPokemon[0].attack - opponentsPokemon[0].defense, 0)
+  const damage = Math.max(usersPokemon[battlingPokemonUser].attack - opponentsPokemon[battlingPokemonOpponent].defense, 0)
 
-  opponentsPokemon[0].hp -= damage;
+  opponentsPokemon[battlingPokemonOpponent].hp -= damage;
+
+  alert(`${usersPokemon[battlingPokemonUser]} gjorde ${damage} til ${opponentsPokemon[battlingPokemonOpponent]} med bruk av ${usersPokemon[battlingPokemonUser].firstMove}!`)
 opponentsAttack();
 }
-// Angreps funksjon for første angrepe som skal gå ut på attack staten
+// Angreps funksjon for første angrepe som skal gå ut på  special-attack staten
 function spescialAttackSystem(){
 
-  const damage = Math.max(usersPokemon[0].specialAttack - opponentsPokemon[0].specialDefense, 0)
+  const damage = Math.max(usersPokemon[battlingPokemonUser].specialAttack - opponentsPokemon[battlingPokemonOpponent].specialDefense, 0)
 
-  opponentsPokemon[0].hp -= damage;
+  opponentsPokemon[battlingPokemonOpponent].hp -= damage;
+
+  alert(`${usersPokemon[battlingPokemonUser]} gjorde ${damage} til ${opponentsPokemon[battlingPokemonOpponent]} med bruk av ${usersPokemon[battlingPokemonUser].secondMove}!`)
 
 opponentsAttack();
 
@@ -97,27 +103,26 @@ opponentsAttack();
 
 function opponentsAttack(){
 
-  const opponentsRandomMove = Math.floor(Math.random() * opponentsPokemon[0].moves.length);
-  const opponentsRandomAttack = opponentsPokemon[0].moves[opponentsRandomMove].move.name;
+  const opponentsRandomMove = Math.floor(Math.random() * opponentsPokemon[battlingPokemonOpponent].moves.length);
+  const opponentsRandomAttack = opponentsPokemon[battlingPokemonOpponent].moves[opponentsRandomMove].move.name;
 
   if(opponentsRandomMove === 0){
-    const damage = Math.max(opponentsPokemon[0].attack - usersPokemon[0].defense, 0)
+    const damage = Math.max(opponentsPokemon[battlingPokemonOpponent].attack - usersPokemon[battlingPokemonUser].defense, 0)
 
-    usersPokemon[0].hp -= damage;
+    usersPokemon[battlingPokemonUser].hp -= damage;
 
-    alert(``)//motstaders pokemon gjorde ${damage}
+    alert(`${battlingPokemonOpponent} gjorde ${damage} til ${battlingPokemonUser} med bruk av ${opponentsRandomAttack}!`)
   }
 
   else if(opponentsRandomMove === 1){
 
-    const damage = Math.max(opponentsPokemon[0].specialAttack - usersPokemon[0].specialDefense, 0)
+    const damage = Math.max(opponentsPokemon[battlingPokemonOpponent].specialAttack - usersPokemon[battlingPokemonUser].specialDefense, 0)
 
-    usersPokemon[0].hp -= damage;
-    alert(``)//motstaders pokemon gjorde ${damage}
+    usersPokemon[battlingPokemonUser].hp -= damage;
+    alert(`${battlingPokemonOpponent} gjorde ${damage} til ${battlingPokemonUser} med bruk av ${opponentsRandomAttack}!`)
   }
-
-
 }
+
 //viser moves 
 function showMoves(){
   if(usersPokemon.length > 0){
@@ -128,16 +133,25 @@ function showMoves(){
     moveList.classList.add("move-list");
 
     const firstAttackMove = document.createElement("button");
-    firstAttackMove.textContent = `${usersPokemon[0].firstMove}`;
+    firstAttackMove.textContent = `${usersPokemon[battlingPokemonUser].firstMove}`;
+    firstAttackMove.addEventListener("click", () => {
+      attackSystem()
+    })
     moveList.appendChild(firstAttackMove);
 
     const secondAttackMove = document.createElement("button");
-  secondAttackMove.textContent = `${usersPokemon[0].secondMove}`;
+  secondAttackMove.textContent = `${usersPokemon[battlingPokemonUser].secondMove}`;
+  secondAttackMove.addEventListener("click", () => {
+  spescialAttackSystem()
+  })
   moveList.appendChild(secondAttackMove);
 
 moveSelection.appendChild(moveList);
 
   }
+}
+function switchPokemon(){
+
 }
 
 fetchBattlePokemon()
