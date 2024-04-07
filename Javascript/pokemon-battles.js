@@ -79,17 +79,43 @@ function showOnePokemonEach(){
 // Angreps funksjon for første angrepe som skal gå ut på attack staten
 function attackSystem(){
 
-  const damage = Math.max(attackingPokemon.attack - defendingPokemon.defense, 0)
+  const damage = Math.max(usersPokemon[0].attack - opponentsPokemon[0].defense, 0)
 
-  defendingPokemon.hp -= damage;
-
+  opponentsPokemon[0].hp -= damage;
+opponentsAttack();
 }
 // Angreps funksjon for første angrepe som skal gå ut på attack staten
 function spescialAttackSystem(){
 
-  const damage = Math.max(attackingPokemon.specialAttack - defendingPokemon.specialDefense, 0)
+  const damage = Math.max(usersPokemon[0].specialAttack - opponentsPokemon[0].specialDefense, 0)
 
-  defendingPokemon.hp -= damage;
+  opponentsPokemon[0].hp -= damage;
+
+opponentsAttack();
+
+}
+
+function opponentsAttack(){
+
+  const opponentsRandomMove = Math.floor(Math.random() * opponentsPokemon[0].moves.length);
+  const opponentsRandomAttack = opponentsPokemon[0].moves[opponentsRandomMove].move.name;
+
+  if(opponentsRandomMove === 0){
+    const damage = Math.max(opponentsPokemon[0].attack - usersPokemon[0].defense, 0)
+
+    usersPokemon[0].hp -= damage;
+
+    alert(``)//motstaders pokemon gjorde ${damage}
+  }
+
+  else if(opponentsRandomMove === 1){
+
+    const damage = Math.max(opponentsPokemon[0].specialAttack - usersPokemon[0].specialDefense, 0)
+
+    usersPokemon[0].hp -= damage;
+    alert(``)//motstaders pokemon gjorde ${damage}
+  }
+
 
 }
 //viser moves 
