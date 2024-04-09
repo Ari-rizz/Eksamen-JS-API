@@ -43,7 +43,6 @@ async function collectInfo() {
     }
     splitPokemon();
     showOnePokemonEach();
-    console.log(pokemonToSplit);
   } catch (error) {
     console.log("Kunne ikke hente inn pokemon informasjon" + error);
   }
@@ -86,7 +85,9 @@ function showOnePokemonEach() {
 
     const pokemonShowing = document.querySelector(".battle-arena")
     pokemonShowing.style.display = "flex";
-    pokemonShowing.style.margin ="150px 300px";
+    pokemonShowing.style.margin ="0px 300px 150px";
+    pokemonShowing.style.borderRadius = "20px";
+    pokemonShowing.style.backgroundColor = "white";
 
     showMoves();
   }
@@ -197,6 +198,13 @@ function showMoves() {
     firstAttackMove.addEventListener("click", () => {
       attackSystem();
     });
+    firstAttackMove.style.height = "60px";
+    firstAttackMove.style.width = "300px";
+    firstAttackMove.style.fontFamily = "fantasy";
+    firstAttackMove.style.fontSize = "26px";
+    firstAttackMove.style.color = "white";
+    firstAttackMove.style.backgroundColor = "Gray";
+
     moveList.appendChild(firstAttackMove);
 
     const secondAttackMove = document.createElement("button");
@@ -204,11 +212,23 @@ function showMoves() {
     secondAttackMove.addEventListener("click", () => {
       spescialAttackSystem();
     });
+    secondAttackMove.style.height = "60px";
+    secondAttackMove.style.width = "300px";
+    secondAttackMove.style.fontFamily = "fantasy";
+    secondAttackMove.style.fontSize = "26px";
+    secondAttackMove.style.color = "white";
+    secondAttackMove.style.backgroundColor = "Gray";
+
     moveList.appendChild(secondAttackMove);
 
     moveSelection.appendChild(moveList);
+
+    moveSelection.style.margin = "-100px 400px";
   }
 }
+//funskjon for å lage health bar her
+function showHealt(){}
+
 function switchPokemon() {
   const availablePokemon = usersPokemon.filter((pokemon) => pokemon.hp > 0);
   if (availablePokemon.length > 0) {
@@ -238,5 +258,15 @@ function switchPokemon() {
     alert("Du har ingen pokemon igjen. Du tapte denne gangen");
   }
 }
+// Styling
+document.body.style.backgroundColor = "Black";
+document.body.style.textAlign = "center";
+document.body.style.fontFamily = "fantasy";
+document.body.style.color = "white";
+
+document.querySelectorAll("h1").forEach((h1) => {
+  h1.style.fontSize = "70px";
+});
+
 
 fetchBattlePokemon();
