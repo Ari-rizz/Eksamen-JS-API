@@ -65,6 +65,10 @@ function showOnePokemonEach() {
     const usersPokemonImg = document.createElement("img");
     usersPokemonImg.src = usersPokemon[battlingPokemonUser].imageBack;
     usersPokemonImg.alt = usersPokemon[battlingPokemonUser].name;
+
+    usersPokemonImg.style.height = "400px";
+    usersPokemonImg.style.width = "400px";
+
     showingUserPokemon.appendChild(usersPokemonImg);
 
     const showingOpponentPokemon = document.querySelector(
@@ -76,6 +80,13 @@ function showOnePokemonEach() {
       opponentsPokemon[battlingPokemonOpponent].imageFront;
     opponentsPokemonImg.alt = opponentsPokemon[battlingPokemonOpponent].name;
     showingOpponentPokemon.appendChild(opponentsPokemonImg);
+
+    opponentsPokemonImg.style.height = "400px";
+    opponentsPokemonImg.style.width = "400px";
+
+    const pokemonShowing = document.querySelector(".battle-arena")
+    pokemonShowing.style.display = "flex";
+    pokemonShowing.style.margin ="150px 300px";
 
     showMoves();
   }
@@ -201,6 +212,8 @@ function showMoves() {
 function switchPokemon() {
   const availablePokemon = usersPokemon.filter((pokemon) => pokemon.hp > 0);
   if (availablePokemon.length > 0) {
+    let chosenPokemon;
+    while(!chosenPokemon){
     const listOfPokemonToChoose = availablePokemon.map(
       (pokemon) => pokemon.name
     );
@@ -208,16 +221,19 @@ function switchPokemon() {
       `Velg en ny Pokemon. Dine Pokemon er ${listOfPokemonToChoose}`
     );
 
-    const chosenPokemon = availablePokemon.find(
+     chosenPokemon = availablePokemon.find(
       (pokemon) => pokemon.name === chosenPokemonName
     );
+
+    if(!chosenPokemon){
+      alert("Pokemonen du har skrivet inn finnes ikke, prøv igjen")
+    }
     if (chosenPokemon) {
       battlingPokemonUser = usersPokemon.indexOf(chosenPokemon);
 
       showOnePokemonEach();
-    } else {
-      alert("Pokemonen du har valgt finnes ikke. Prøv igjen");
-    }
+    } 
+  }
   } else {
     alert("Du har ingen pokemon igjen. Du tapte denne gangen");
   }
