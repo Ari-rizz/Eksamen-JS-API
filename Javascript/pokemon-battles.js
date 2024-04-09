@@ -83,7 +83,7 @@ function showOnePokemonEach(){
 // Angreps funksjon for første angrepe som skal gå ut på attack staten
 function attackSystem(){
 
-  const damage = Math.max(usersPokemon[battlingPokemonUser].attack - opponentsPokemon[battlingPokemonOpponent].defense, 0)
+  const damage = Math.max(usersPokemon[battlingPokemonUser].attack - opponentsPokemon[battlingPokemonOpponent].defense, 5) // Gjør minst 5 damage
 
   opponentsPokemon[battlingPokemonOpponent].hp -= damage;
 
@@ -93,7 +93,7 @@ opponentsAttack();
 // Angreps funksjon for første angrepe som skal gå ut på  special-attack staten
 function spescialAttackSystem(){
 
-  const damage = Math.max(usersPokemon[battlingPokemonUser].specialAttack - opponentsPokemon[battlingPokemonOpponent].specialDefense, 0)
+  const damage = Math.max(usersPokemon[battlingPokemonUser].specialAttack - opponentsPokemon[battlingPokemonOpponent].specialDefense, 5) // Gjør minst 5 damage
 
   opponentsPokemon[battlingPokemonOpponent].hp -= damage;
 
@@ -108,7 +108,7 @@ function opponentsAttack(){
   const opponentsRandomAttack = opponentsMoveList[opponentsRandomMove];
 
   if(opponentsRandomAttack === opponentsPokemon[battlingPokemonOpponent].secondMove){
-    const damage = Math.max(opponentsPokemon[battlingPokemonOpponent].attack - usersPokemon[battlingPokemonUser].defense, 0)
+    const damage = Math.max(opponentsPokemon[battlingPokemonOpponent].attack - usersPokemon[battlingPokemonUser].defense, 5)// Gjør minst 5 damage
 
     usersPokemon[battlingPokemonUser].hp -= damage;
 
@@ -117,7 +117,7 @@ function opponentsAttack(){
 
   else if(opponentsRandomAttack === opponentsPokemon[battlingPokemonOpponent].firstMove){
 
-    const damage = Math.max(opponentsPokemon[battlingPokemonOpponent].specialAttack - usersPokemon[battlingPokemonUser].specialDefense, 0)
+    const damage = Math.max(opponentsPokemon[battlingPokemonOpponent].specialAttack - usersPokemon[battlingPokemonUser].specialDefense, 5)// Gjør minst 5 damage
 
     usersPokemon[battlingPokemonUser].hp -= damage;
     alert(`${opponentsPokemon[battlingPokemonOpponent].name} gjorde ${damage} til ${usersPokemon[battlingPokemonUser].name} med bruk av ${opponentsRandomAttack}!`)
@@ -129,8 +129,9 @@ function opponentsAttack(){
     showOnePokemonEach()
     alert(`Motstanderen sender ut ${opponentsPokemon[battlingPokemonOpponent].name}!`)
   } 
-  if(opponentsPokemon.hp <= 0){
-    alert(`Motstanderen har ingen flere pokemon. Du vinner kampen denne gangen!`)
+  
+  if(usersPokemon[battlingPokemonUser].hp <= 0){
+    switchPokemon();
   }
 }
 
@@ -164,8 +165,19 @@ moveSelection.appendChild(moveList);
 function switchPokemon(){
   const availablePokemon = usersPokemon.filter(pokemon => pokemon.hp > 0);
   if(availablePokemon.length > 0){
-    const listOfPokemonToChoose = availablePokemon.map(pokemon => pokemon.name)
-    const chosenPokemonName = prompt(`Velg en ny Pokemon. Dine Pokemon er ${listOfPokemonToChoose}`)
+    const listOfPokemonToChoose = availablePokemon.map(pokemon => pokemon.name);
+    const chosenPokemonName = prompt(`Velg en ny Pokemon. Dine Pokemon er ${listOfPokemonToChoose}`);
+
+    const chosenPokemon = availablePokemon.find(pokemon => pokemon.name === chosenPokemonName);
+    if(chosenPokemon){
+      battlingPokemonUser = usersPokemon.indexOf(chosenPokemon);
+
+      showOnePokemonEach();
+    } else{
+      alert("Pokemonen du har valgt finnes ikke. Prøv igjen");
+    }
+  }else{
+    alert("Du har ingen pokemon igjen. Du tapte denne gangen");
   }
 }
 
