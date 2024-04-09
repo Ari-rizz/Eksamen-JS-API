@@ -63,12 +63,14 @@ function showOnePokemonEach(){
 
   if (usersPokemon.length > 0 && opponentsPokemon.length >0){
     const showingUserPokemon = document.querySelector(".users-showing-pokemon");
+    showingUserPokemon.innerHTML = "";
    const usersPokemonImg = document.createElement("img");
     usersPokemonImg.src = usersPokemon[battlingPokemonUser].imageBack;
-    usersPokemonImg.alt = usersPokemon[battlingPokemonOpponent].name;
+    usersPokemonImg.alt = usersPokemon[battlingPokemonUser].name;
     showingUserPokemon.appendChild(usersPokemonImg);
 
     const showingOpponentPokemon = document.querySelector(".opponents-showing-pokemon");
+    showingOpponentPokemon.innerHTML = "";
     const opponentsPokemonImg = document.createElement("img");
      opponentsPokemonImg.src = opponentsPokemon[battlingPokemonOpponent].imageFront;
     opponentsPokemonImg.alt = opponentsPokemon[battlingPokemonOpponent].name;
@@ -96,7 +98,6 @@ function spescialAttackSystem(){
   opponentsPokemon[battlingPokemonOpponent].hp -= damage;
 
   alert(`${usersPokemon[battlingPokemonUser].name} gjorde ${damage} til ${opponentsPokemon[battlingPokemonOpponent].name} med bruk av ${usersPokemon[battlingPokemonUser].secondMove}!`)
-
 opponentsAttack();
 
 }
@@ -120,6 +121,16 @@ function opponentsAttack(){
 
     usersPokemon[battlingPokemonUser].hp -= damage;
     alert(`${opponentsPokemon[battlingPokemonOpponent].name} gjorde ${damage} til ${usersPokemon[battlingPokemonUser].name} med bruk av ${opponentsRandomAttack}!`)
+  }
+// Sender ut neste pokemon hvis den nåværende har 0 i hp
+  if(opponentsPokemon[battlingPokemonOpponent].hp <= 0){
+    alert(`${opponentsPokemon[battlingPokemonOpponent].name} har blitt beseiret og kan ikke sloss mer!`)
+    battlingPokemonOpponent++;
+    showOnePokemonEach()
+    alert(`Motstanderen sender ut ${opponentsPokemon[battlingPokemonOpponent].name}!`)
+  } 
+  if(opponentsPokemon.hp <= 0){
+    alert(`Motstanderen har ingen flere pokemon. Du vinner kampen denne gangen!`)
   }
 }
 
@@ -151,12 +162,12 @@ moveSelection.appendChild(moveList);
   }
 }
 function switchPokemon(){
-if(usersPokemon[battlingPokemonUser].hp >= 0){
+  const availablePokemon = usersPokemon.filter(pokemon => pokemon.hp > 0);
+  if(availablePokemon.length > 0){
+    const listOfPokemonToChoose = availablePokemon.map(pokemon => pokemon.name)
+    const chosenPokemonName = prompt(`Velg en ny Pokemon. Dine Pokemon er ${listOfPokemonToChoose}`)
+  }
+}
 
-}
-if(opponentsPokemon[battlingPokemonUser].hp >= 0){
-  
-}
-}
 
 fetchBattlePokemon()
