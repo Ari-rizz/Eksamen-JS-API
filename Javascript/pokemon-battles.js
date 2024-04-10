@@ -90,6 +90,7 @@ function showOnePokemonEach() {
     pokemonShowing.style.backgroundColor = "white";
 
     showMoves();
+    showHealth();
   }
 }
 // Angreps funksjon for første angrepe som skal gå ut på attack staten
@@ -106,6 +107,7 @@ function attackSystem() {
     `${usersPokemon[battlingPokemonUser].name} gjorde ${damage} til ${opponentsPokemon[battlingPokemonOpponent].name} med bruk av ${usersPokemon[battlingPokemonUser].firstMove}!`
   );
   opponentsAttack();
+  showHealth();
 }
 // Angreps funksjon for første angrepe som skal gå ut på  special-attack staten
 function spescialAttackSystem() {
@@ -121,6 +123,7 @@ function spescialAttackSystem() {
     `${usersPokemon[battlingPokemonUser].name} gjorde ${damage} til ${opponentsPokemon[battlingPokemonOpponent].name} med bruk av ${usersPokemon[battlingPokemonUser].secondMove}!`
   );
   opponentsAttack();
+  showHealth();
 }
 
 function opponentsAttack() {
@@ -227,8 +230,34 @@ function showMoves() {
   }
 }
 //funskjon for å lage health bar her
-function showHealt(){}
+function showHealth(){
+  const healthSection = document.querySelector(".battle-arena");
+  const userHealthBar = document.querySelector(".users-hp");
+  const opponentsHealthBar = document.querySelector(".opponents-hp");
 
+  userHealthBar.textContent = `${usersPokemon[battlingPokemonUser].name} : ${usersPokemon[battlingPokemonUser].hp}`;
+  userHealthBar.style.height ="40px";
+  userHealthBar.style.width =`(${usersPokemon[battlingPokemonUser].hp}px) * 30`;
+  userHealthBar.style.backgroundColor = "green";
+  userHealthBar.style.position = "absolute";
+  userHealthBar.style.margin = "5px 10px";
+  userHealthBar.style.borderRadius = "5px";
+  userHealthBar.style.border = "2px black solid";
+
+  opponentsHealthBar.textContent =`${opponentsPokemon[battlingPokemonOpponent].name} : ${opponentsPokemon[battlingPokemonOpponent].hp}`;
+  opponentsHealthBar.style.height = "40px";
+  opponentsHealthBar.style.width =`${opponentsPokemon[battlingPokemonOpponent].hp}px * 30`;
+  opponentsHealthBar.style.backgroundColor = "green";
+  opponentsHealthBar.style.position = "absolute";
+  opponentsHealthBar.style.margin = "5px 0px 0px 500px";
+  opponentsHealthBar.style.borderRadius = "5px";
+  opponentsHealthBar.style.border = "2px black solid";
+
+  healthSection.style.color = "Black";
+
+  healthSection.appendChild(userHealthBar);
+  healthSection.appendChild(opponentsHealthBar);
+}
 function switchPokemon() {
   const availablePokemon = usersPokemon.filter((pokemon) => pokemon.hp > 0);
   if (availablePokemon.length > 0) {
@@ -242,7 +271,7 @@ function switchPokemon() {
     );
 
      chosenPokemon = availablePokemon.find(
-      (pokemon) => pokemon.name === chosenPokemonName
+      (pokemon) => pokemon.name === chosenPokemonName.toLocaleLowerCase()
     );
 
     if(!chosenPokemon){
@@ -255,7 +284,9 @@ function switchPokemon() {
     } 
   }
   } else {
+    alert(`${usersPokemon[battlingPokemonUser].name} er besiret`);
     alert("Du har ingen pokemon igjen. Du tapte denne gangen");
+    //prompt("") // spør brukren om den vil prøve igjen, fortsetter til ja
   }
 }
 // Styling
@@ -263,6 +294,7 @@ document.body.style.backgroundColor = "Black";
 document.body.style.textAlign = "center";
 document.body.style.fontFamily = "fantasy";
 document.body.style.color = "white";
+document.querySelector(".battle-arena").style.textTransform = "capitalize";
 
 document.querySelectorAll("h1").forEach((h1) => {
   h1.style.fontSize = "70px";
