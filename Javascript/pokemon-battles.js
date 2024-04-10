@@ -198,6 +198,7 @@ function showMoves() {
 
     const firstAttackMove = document.createElement("button");
     firstAttackMove.textContent = `${usersPokemon[battlingPokemonUser].firstMove}`;
+    firstAttackMove.style.textTransform = "capitalize";
     firstAttackMove.addEventListener("click", () => {
       attackSystem();
     });
@@ -212,6 +213,7 @@ function showMoves() {
 
     const secondAttackMove = document.createElement("button");
     secondAttackMove.textContent = `${usersPokemon[battlingPokemonUser].secondMove}`;
+    secondAttackMove.style.textTransform = "capitalize";
     secondAttackMove.addEventListener("click", () => {
       spescialAttackSystem();
     });
@@ -223,6 +225,7 @@ function showMoves() {
     secondAttackMove.style.backgroundColor = "Gray";
 
     moveList.appendChild(secondAttackMove);
+
 
     moveSelection.appendChild(moveList);
 
