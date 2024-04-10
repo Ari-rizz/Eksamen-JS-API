@@ -174,7 +174,16 @@ function opponentsAttack() {
     battlingPokemonOpponent++;
     if (battlingPokemonOpponent === 3) {
       alert("Alle pokemonene til motstaderen er beseiret. Du er vinneren!");
-      return;
+      let playAgain = false;
+      while(!playAgain) {
+        const playAgainAnswer = prompt("Du kan alltid spille igjen? (Ja/Nei)");
+       if(playAgainAnswer.toLocaleLowerCase() === "ja"){
+        playAgain = true;
+        location.reload(); //reloader nettsiden for å starte spillet på nytt
+       }else{
+        alert("Å vinne føles bra, du vil vel oppleve det igjen")
+       }
+      }
     }
     showOnePokemonEach();
     alert(
@@ -289,7 +298,17 @@ function switchPokemon() {
   } else {
     alert(`${usersPokemon[battlingPokemonUser].name} er besiret`);
     alert("Du har ingen pokemon igjen. Du tapte denne gangen");
-    //prompt("") // spør brukren om den vil prøve igjen, fortsetter til ja
+
+    let playAgain = false;
+    while(!playAgain) {
+      const playAgainAnswer = prompt("Du kan alltid prøve igjen vil du det? (Ja/Nei)");
+     if(playAgainAnswer.toLocaleLowerCase() === "ja"){
+      playAgain = true;
+      location.reload(); //reloader nettsiden for å starte spillet på nytt
+     }else{
+      alert("Kom igjen, du kan ikke slutte før du har vunnet!!")
+     }
+    }
   }
 }
 // Styling
