@@ -27,7 +27,6 @@ async function collectInfo() {
       const pokemon = {
         id: data.id,
         name: data.name,
-        type: data.types[0].type.name,
         imageFront: data.sprites.front_default,
         imageBack: data.sprites.back_default,
         firstMove: data.moves[0].move.name,
@@ -42,6 +41,7 @@ async function collectInfo() {
       pokemonToSplit.push(pokemon);
     }
     splitPokemon();
+    starterPokemon();
     showOnePokemonEach();
   } catch (error) {
     console.log("Kunne ikke hente inn pokemon informasjon" + error);
@@ -83,9 +83,9 @@ function showOnePokemonEach() {
     opponentsPokemonImg.style.height = "400px";
     opponentsPokemonImg.style.width = "400px";
 
-    const pokemonShowing = document.querySelector(".battle-arena")
+    const pokemonShowing = document.querySelector(".battle-arena");
     pokemonShowing.style.display = "flex";
-    pokemonShowing.style.margin ="0px 300px 150px";
+    pokemonShowing.style.margin = "0px 300px 150px";
     pokemonShowing.style.borderRadius = "20px";
     pokemonShowing.style.backgroundColor = "white";
 
@@ -175,14 +175,14 @@ function opponentsAttack() {
     if (battlingPokemonOpponent === 3) {
       alert("Alle pokemonene til motstaderen er beseiret. Du er vinneren!");
       let playAgain = false;
-      while(!playAgain) {
+      while (!playAgain) {
         const playAgainAnswer = prompt("Du kan alltid spille igjen? (Ja/Nei)");
-       if(playAgainAnswer.toLocaleLowerCase() === "ja"){
-        playAgain = true;
-        location.reload(); //reloader nettsiden for å starte spillet på nytt
-       }else{
-        alert("Å vinne føles bra, du vil vel oppleve det igjen")
-       }
+        if (playAgainAnswer.toLocaleLowerCase() === "ja") {
+          playAgain = true;
+          location.reload(); //reloader nettsiden for å starte spillet på nytt
+        } else {
+          alert("Å vinne føles bra, du vil vel oppleve det igjen");
+        }
       }
     }
     showOnePokemonEach();
@@ -235,30 +235,29 @@ function showMoves() {
 
     moveList.appendChild(secondAttackMove);
 
-
     moveSelection.appendChild(moveList);
 
     moveSelection.style.margin = "-100px 400px";
   }
 }
-//funskjon for å lage health bar her
-function showHealth(){
+//funskjon for å lage health bar
+function showHealth() {
   const healthSection = document.querySelector(".battle-arena");
   const userHealthBar = document.querySelector(".users-hp");
   const opponentsHealthBar = document.querySelector(".opponents-hp");
 
   userHealthBar.textContent = `${usersPokemon[battlingPokemonUser].name} : ${usersPokemon[battlingPokemonUser].hp}`;
-  userHealthBar.style.height ="40px";
-  userHealthBar.style.width =`(${usersPokemon[battlingPokemonUser].hp}px) * 30`;
+  userHealthBar.style.height = "40px";
+  userHealthBar.style.width = `${usersPokemon[battlingPokemonUser].hp}px * 30px`;
   userHealthBar.style.backgroundColor = "green";
   userHealthBar.style.position = "absolute";
   userHealthBar.style.margin = "5px 10px";
   userHealthBar.style.borderRadius = "5px";
   userHealthBar.style.border = "2px black solid";
 
-  opponentsHealthBar.textContent =`${opponentsPokemon[battlingPokemonOpponent].name} : ${opponentsPokemon[battlingPokemonOpponent].hp}`;
+  opponentsHealthBar.textContent = `${opponentsPokemon[battlingPokemonOpponent].name} : ${opponentsPokemon[battlingPokemonOpponent].hp}`;
   opponentsHealthBar.style.height = "40px";
-  opponentsHealthBar.style.width =`${opponentsPokemon[battlingPokemonOpponent].hp}px * 30`;
+  opponentsHealthBar.style.width = `${opponentsPokemon[battlingPokemonOpponent].hp}px * 30px`;
   opponentsHealthBar.style.backgroundColor = "green";
   opponentsHealthBar.style.position = "absolute";
   opponentsHealthBar.style.margin = "5px 0px 0px 500px";
@@ -281,49 +280,57 @@ switchButton.style.fontFamily = "fantasy";
 switchButton.style.color = "White";
 
 switchButton.addEventListener("click", () => {
-switchPokemon(); // bytter pokemon
-opponentsAttack(); // Gjør angrep på den byttede Pokemonen
+  switchPokemon(); // bytter pokemon
+  opponentsAttack(); // Gjør angrep på den byttede Pokemonen
+});
+
+function starterPokemon() {
+  alert(
+    "Velkommen til Pokemon Battle. Her kan du vise fram ferdighetene dine ved å slå motsanderen."
+  );
+  switchPokemon();
 }
-);
 
 function switchPokemon() {
   const availablePokemon = usersPokemon.filter((pokemon) => pokemon.hp > 0);
   if (availablePokemon.length > 0) {
     let chosenPokemon;
-    while(!chosenPokemon){
-    const listOfPokemonToChoose = availablePokemon.map(
-      (pokemon) => pokemon.name
-    );
-    const chosenPokemonName = prompt(
-      `Velg en ny Pokemon. Dine Pokemon er ${listOfPokemonToChoose}`
-    );
+    while (!chosenPokemon) {
+      const listOfPokemonToChoose = availablePokemon.map(
+        (pokemon) => pokemon.name
+      );
+      const chosenPokemonName = prompt(
+        `Velg en Pokemon. Dine Pokemon er ${listOfPokemonToChoose}`
+      );
 
-     chosenPokemon = availablePokemon.find(
-      (pokemon) => pokemon.name === chosenPokemonName.toLocaleLowerCase()
-    );
+      chosenPokemon = availablePokemon.find(
+        (pokemon) => pokemon.name === chosenPokemonName.toLocaleLowerCase()
+      );
 
-    if(!chosenPokemon){
-      alert("Pokemonen du har skrivet inn finnes ikke, prøv igjen")
+      if (!chosenPokemon) {
+        alert("Pokemonen du har skrivet inn finnes ikke, prøv igjen");
+      }
+      if (chosenPokemon) {
+        battlingPokemonUser = usersPokemon.indexOf(chosenPokemon);
+
+        showOnePokemonEach();
+      }
     }
-    if (chosenPokemon) {
-      battlingPokemonUser = usersPokemon.indexOf(chosenPokemon);
-
-      showOnePokemonEach();
-    } 
-  }
   } else {
     alert(`${usersPokemon[battlingPokemonUser].name} er besiret`);
     alert("Du har ingen pokemon igjen. Du tapte denne gangen");
 
     let playAgain = false;
-    while(!playAgain) {
-      const playAgainAnswer = prompt("Du kan alltid prøve igjen vil du det? (Ja/Nei)");
-     if(playAgainAnswer.toLocaleLowerCase() === "ja"){
-      playAgain = true;
-      location.reload(); //reloader nettsiden for å starte spillet på nytt
-     }else{
-      alert("Kom igjen, du kan ikke slutte før du har vunnet!!")
-     }
+    while (!playAgain) {
+      const playAgainAnswer = prompt(
+        "Du kan alltid prøve igjen vil du det? (Ja/Nei)"
+      );
+      if (playAgainAnswer.toLocaleLowerCase() === "ja") {
+        playAgain = true;
+        location.reload(); //reloader nettsiden for å starte spillet på nytt
+      } else {
+        alert("Kom igjen, du kan ikke slutte før du har vunnet!!");
+      }
     }
   }
 }
@@ -337,6 +344,5 @@ document.querySelector(".battle-arena").style.textTransform = "capitalize";
 document.querySelectorAll("h1").forEach((h1) => {
   h1.style.fontSize = "70px";
 });
-
 
 fetchBattlePokemon();
