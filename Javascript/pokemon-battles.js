@@ -270,6 +270,22 @@ function showHealth(){
   healthSection.appendChild(userHealthBar);
   healthSection.appendChild(opponentsHealthBar);
 }
+
+const switchButton = document.querySelector(".switch");
+
+switchButton.style.width = "160px";
+switchButton.style.height = "30px";
+switchButton.style.backgroundColor = "Grey";
+switchButton.style.borderRadius = "5px";
+switchButton.style.fontFamily = "fantasy";
+switchButton.style.color = "White";
+
+switchButton.addEventListener("click", () => {
+switchPokemon(); // bytter pokemon
+opponentsAttack(); // Gjør angrep på den byttede Pokemonen
+}
+);
+
 function switchPokemon() {
   const availablePokemon = usersPokemon.filter((pokemon) => pokemon.hp > 0);
   if (availablePokemon.length > 0) {
