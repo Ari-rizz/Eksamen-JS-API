@@ -354,6 +354,5 @@ document.querySelectorAll(".filter-type button").forEach((button) => {
   button.style.borderRadius = "25px";
 });
 
-localStorage.clear();
 fetchPokemon();
 displayUsersPokemon();
