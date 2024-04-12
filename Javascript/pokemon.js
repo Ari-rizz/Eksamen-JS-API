@@ -258,7 +258,7 @@ function makePokemon() {
   const newPokemonType = prompt("Hva er typen til din nye Pokemon?");
 
   const newPokemonTypeReal = typeColor.some(
-    (item) => item.type.toLowerCase() === newPokemonType
+    (item) => item.type.toLowerCase() === newPokemonType.toLocaleLowerCase()
   );
   if (!newPokemonTypeReal) {
     alert("Pokemon typen finnes ikke, prøv igjen");
